@@ -1,5 +1,10 @@
 #include <Wire.h>
 
+// Pines de conexión al driver L298N
+const int enB = 25;   // Pin Enable A (control de velocidad PWM)
+const int in3 = 26;   // Pin de entrada 1 para el motor A
+const int in4 = 27;   // Pin de entrada 2 para el motor A
+
 // Dirección I2C del MPU6050
 const int MPU6050_ADDR = 0x68;
 
@@ -75,9 +80,22 @@ void leerSensoresCalibrados() {
   gyroZ = rawGyroZ / 131.0;
 }
 
+float anguloPitchFiltrado =0;
+int velocidad =0;
 
 void setup() {
   pinMode(2,OUTPUT);
+    // Configura los pines como salidas
+  pinMode(2,OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+
+  // Inicializa el motor detenido
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+  analogWrite(enB, 0); // 0% de velocidad
+
   Serial.begin(115200);
   Wire.begin();
   Wire.setClock(400000);
@@ -94,11 +112,15 @@ void setup() {
 
 void loop() {
   Blink(250);
-  float anguloPitchFiltrado = obtenerPitchFiltradoCalibrado();
+  anguloPitchFiltrado = obtenerPitchFiltradoCalibrado();
   Serial.print("Ángulo de Cabeceo Filtrado (Calibrado): ");
   Serial.print(anguloPitchFiltrado);
   Serial.print(" | AccelX: "); Serial.print(accelXCal);
   Serial.print(" | AccelY: "); Serial.print(accelYCal);
   Serial.print(" | AccelZ: "); Serial.println(accelZCal);
+
+  moverMotores();
+  Serial.print(" | Velocidad motor: "); Serial.println(velocidad);
+
   delay(100);
 }
