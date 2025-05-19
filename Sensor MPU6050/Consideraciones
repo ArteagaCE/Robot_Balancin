@@ -1,0 +1,11 @@
+El sensor MPU6050 es un acelerómetro y giroscopio que permitira medir la inclinación del robot
+El sensor tiene una alta sensibilidad y también posee un offset en sus mediciones que tiene que
+ser calibrado inicialmente para poder obtener mediciones fiables.
+Por lo tanto se debe:
+1) Calibrar el sensor para determinar sus offset
+2) Para reducir su sensibilidad se debe aplicar un filtro de Kalman
+  2.a) Se debe ajustar la ganancia del filtro Kalman (0.0 - 1.0) ya que con ella podemos ponderar
+  las mediciones que usa el filtro Kalman siento 1 el valor que pondera más la medición del giroscopio
+  (mediciones de la velocidad angular que a largo plazo sus errores generan una deriva) y 0 el valor que
+  pondera más la medición del acelerómetro (detecta mejor los cambios rápidos en la inclinación pero su 
+  sensibilidad a las vibraciones y la aceleración lineal introduce ruido).
