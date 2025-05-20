@@ -5,8 +5,8 @@ const int enA = 25;   // Pin Enable A (control de velocidad PWM)
 const int in1 = 26;   // Pin de entrada 1 para el motor A
 const int in2 = 27;   // Pin de entrada 2 para el motor A
 const int enB = 13;   // Pin Enable A (control de velocidad PWM)
-const int in3 = 32;   // Pin de entrada 1 para el motor A
-const int in4 = 33;   // Pin de entrada 2 para el motor A
+const int in3 = 33;   // Pin de entrada 1 para el motor A
+const int in4 = 32;   // Pin de entrada 2 para el motor A
 
 // Dirección I2C del MPU6050
 const int MPU6050_ADDR = 0x68;
